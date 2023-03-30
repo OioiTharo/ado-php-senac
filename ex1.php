@@ -46,4 +46,56 @@ Dica:
 <!DOCTYPE html>
 <html>
     <!-- Coloque o que precisar aqui. -->
+	<head>
+		<meta charset="UTF-8">
+		<title>aaa</title>
+	</head>
+	<body>
+
+		<?php
+			  $telefone = $_GET['telefone'];
+			  /*preg_replace("/[^0-9]/", "", $telefone); */
+
+			  
+			  if (strlen($telefone)==10){
+				  $id = substr($telefone, 0, 2); 
+				  $telin = substr($telefone, 2, 4); 
+				  $telfi = substr($telefone, 6, 10);
+				  if(substr($telefone, 1, 1) == 0 || $id<11 || $id==20 || $id==52 || ($id>55 && $id<60) || $id==23 || $id==25 || $id==26 || $id==29 || $id==36 || $id==39 || $id==72 || $id==76 || $id==78) {
+					 echo '<p>Número inválido</p>';
+				  }
+				  else{
+						if(substr($telefone, 2, 1) >= 2 && substr($telefone, 2, 1) <= 8 ){
+							echo '<p>(' . $id . ') '.$telin.'-'.$telfi.'</p>';
+						}
+						else{
+							echo '<p>Número inválido</p>';
+						}
+					
+				  }
+			  }
+			  else{
+				 if (strlen($telefone)==11) {
+					$id = substr($telefone, 0, 2); 
+					$telin = substr($telefone, 2, 5); 
+					$telfi = substr($telefone, 7, 11);
+					if(substr($telefone, 1, 1) == 0 || $id<11 || $id==20 || $id==52 || ($id>55 && $id<60) || $id==23 || $id==25 || $id==26 || $id==29 || $id==36 || $id==39 || $id==72 || $id==76 || $id==78) {
+						echo '<p>Número inválido</p>';
+					}
+					else{
+						if(substr($telefone, 2, 1) == 9 && substr($telefone, 2, 2) != 90  ){
+							
+							echo '<p>(' . $id . ') '.$telin.'-'.$telfi.'</p>';
+						}
+						else{
+							echo '<p>Número inválido</p>';
+						}
+					}
+				 }
+				 else{
+					echo '<p>Número inválido</p>';
+				 }
+			  }
+		?>
+	</body>
 </html>

@@ -29,5 +29,55 @@ Dica:
 ?>
 <!DOCTYPE html>
 <html>
-    <!-- Coloque o que precisar aqui. -->
+<head>
+		<meta charset="UTF-8">
+		<title>aaa</title>
+	</head>
+	<body>
+	<?php
+
+		if(isset($_POST["nome"]) && isset($_POST["sexo"]) && isset($_POST["data-nascimento"])) {
+			$nome = trim($_POST["nome"]); 
+			$sexo = $_POST["sexo"];
+			$dataNascimento = $_POST["data-nascimento"];
+
+		if($sexo == "M" || $sexo == "F") {
+
+			if(preg_match("/^\d{4}-\d{2}-\d{2}$/", $dataNascimento)) {
+				$timestamp = strtotime($dataNascimento);
+				$anoAtual = date("Y");
+				$anoNascimento = date("Y", $timestamp);
+				$mesAtual = date("M");
+				$mesNascimento = date("M", $timestamp);
+				
+				
+
+				$idade = $anoAtual - $anoNascimento -1;
+			
+				
+
+
+				if($timestamp !== false && $anoNascimento >= $anoAtual - 120 && $timestamp < time()) {
+
+					if($sexo == "M") {
+						$genero = "um garoto";
+					} else {
+						$genero = "uma garota";
+					}
+
+					echo "<p>$nome é $genero de $idade anos de idade.</p>";
+				} else {
+					echo "<p>Errado</p>";
+				}
+			} else {
+				echo "<p>Errado</p>";
+			}
+		} else {
+			echo "<p>Errado</p>";
+		}
+	} else {
+		echo "<p>Errado</p>";
+	}
+?>
+</body>
 </html>
