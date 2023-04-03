@@ -35,49 +35,60 @@ Dica:
 	</head>
 	<body>
 	<?php
-
-		if(isset($_POST["nome"]) && isset($_POST["sexo"]) && isset($_POST["data-nascimento"])) {
-			$nome = trim($_POST["nome"]); 
-			$sexo = $_POST["sexo"];
-			$dataNascimento = $_POST["data-nascimento"];
-
-		if($sexo == "M" || $sexo == "F") {
-
-			if(preg_match("/^\d{4}-\d{2}-\d{2}$/", $dataNascimento)) {
-				$timestamp = strtotime($dataNascimento);
-				$anoAtual = date("Y");
-				$anoNascimento = date("Y", $timestamp);
-				$mesAtual = date("M");
-				$mesNascimento = date("M", $timestamp);
-				
-				
-
-				$idade = $anoAtual - $anoNascimento -1;
+		if (isset($_POST["nome"]) && isset($_POST["sexo"]) && isset($_POST["data-nascimento"])) {
 			
+			$nome = trim($_POST["nome"]);
+
+			if ($nome !== "") {
 				
-
-
-				if($timestamp !== false && $anoNascimento >= $anoAtual - 120 && $timestamp < time()) {
-
-					if($sexo == "M") {
-						$genero = "um garoto";
+				$sexo = $_POST["sexo"];
+				if ($sexo === "M" || $sexo === "F") {
+					
+					$data_nascimento = $_POST["data-nascimento"];
+					if (preg_match("/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/", $data_nascimento)) {
+						
+						$data_nascimento_dt = DateTime::createFromFormat("Y-m-d", $data_nascimento);
+						
+						if ($data_nascimento_dt && $data_nascimento_dt->format("Y-m-d") === $data_nascimento) {
+							
+							$hoje = new DateTime();
+							if ($data_nascimento_dt <= $hoje) {
+								
+								$idade_dt = $hoje->diff($data_nascimento_dt);
+								$idade = $idade_dt->y;
+								if ($idade <= 120) {
+									
+									$pronome = ($sexo === "M") ? "um garoto" : "uma garota";
+									
+									echo "<p>" . $nome . " é " . $pronome . " de " . $idade . " anos de idade.</p>";
+									
+								} else {
+									echo "<p>Errado</p>";
+								}
+								
+							} else {
+								echo "<p>Errado</p>";
+							}
+							
+						} else {
+							echo "<p>Errado</p>";
+						}
+						
 					} else {
-						$genero = "uma garota";
+						echo "<p>Errado</p>";
 					}
-
-					echo "<p>$nome é $genero de $idade anos de idade.</p>";
+					
 				} else {
 					echo "<p>Errado</p>";
 				}
+				
 			} else {
 				echo "<p>Errado</p>";
 			}
+			
 		} else {
 			echo "<p>Errado</p>";
 		}
-	} else {
-		echo "<p>Errado</p>";
-	}
-?>
+	?>
 </body>
 </html>
